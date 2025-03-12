@@ -86,5 +86,29 @@ class procesador_de_ventas:
             print(f"Ocurrió un error no esperado: {e}")
 
 
+
+
+class generador_reporte:
+
+    def __init__(self, procesados, ruta_archivo_reporte):
+        self.procesados = procesados
+        self.reporte_ventas_vendedores = pd.DataFrame()
+        self.reporte_ventas_mes = pd.DataFrame()
+        self.generar_reporte_ventas_vendedores()
+        self.generar_reporte_ventas_mes()
+        self.exportar_archivo_resumen(ruta_archivo_reporte)
+
+    def generar_reporte_ventas_vendedores(self):
+        self.reporte_ventas_vendedores = self.procesados.calculo_estadistico_ventas_vendedor()
+
+    def generar_reporte_ventas_mes(self):
+        self.reporte_ventas_mes = self.procesados.calculo_estadistico_ventas_mes()
+
+    def exportar_archivo_resumen(self,ruta_archivo_reporte):
+        with pd.ExcelWriter(ruta_archivo_reporte,engine='openpyxl') as writer:
+            self.reporte_ventas_vendedores.to_excel(writer,sheet_name='Resumen_Ventas')
+            self.reporte_ventas_mes.to_excel(writer,sheet_name='Ventas_Mensuales')
+
 if __name__ == "__main__":
     procesador_ventas = procesador_de_ventas('datos_ventas.xlsx')
+    generador_reporte = generador_reporte(procesador_ventas,'resumen_ventas.xlsx')
