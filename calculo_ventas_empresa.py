@@ -6,7 +6,7 @@ class procesador_de_ventas:
     def __init__(self, ruta_archivo_ventas):
         self.df_ventas = self.cargar_dataframe(ruta_archivo_ventas)
         self.obtener_campos_requeridos()
-
+        self.preprocesar_datos()
 
     def cargar_dataframe(self,ruta_archivo_ventas):
         try:
@@ -24,7 +24,11 @@ class procesador_de_ventas:
 
 
     def preprocesar_datos(self):
-        pass
+
+        total_venta_vacios = self.df_ventas['Total_Venta'].isna() #obtengo los registros de Total_Venta que están vacíos para usarlos como filtro
+        self.df_ventas.loc[total_venta_vacios,'Total_Venta'] = ( self.df_ventas[total_venta_vacios]['Cantidad'] * self.df_ventas.loc[total_venta_vacios]['Precio_Unitario'] ) #Con el filtro de registros vacíos tomo cada campo Total_Venta y lo calculo usando su respectivo registro de Cantidad y Precio Unitario con una multiplicación.
+
+        self.df_ventas['Producto'] = self.df_ventas['Producto'].astype('category') #Convertimos el campo Producto a categoría debido a que es más conveniente en campos de variables limitadas como este.
 
     def convertir_fecha_datetime(self):
         pass
