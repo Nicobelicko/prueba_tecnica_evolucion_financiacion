@@ -11,6 +11,7 @@ class procesador_de_ventas:
         self.agregar_campo_mes()
         self.filtrar_ventas_por_annio(2023)
         self.calculo_estadistico_ventas_vendedor()
+        self.calculo_estadistico_ventas_mes()
 
     def cargar_dataframe(self,ruta_archivo_ventas):
         try:
@@ -79,7 +80,10 @@ class procesador_de_ventas:
             print(f"Ocurrió un error no esperado: {e}")
 
     def calculo_estadistico_ventas_mes(self):
-        pass
+        try:
+            self.df_ventas_por_mes = self.df_ventas.groupby('Mes')['Total_Venta'].sum().reset_index()
+        except Exception as e:
+            print(f"Ocurrió un error no esperado: {e}")
 
 
 if __name__ == "__main__":
