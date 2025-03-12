@@ -16,7 +16,12 @@ class procesador_de_ventas:
 
     def obtener_campos_requeridos(self):
         campos_requeridos = ['ID_Venta','Fecha','Producto','Cantidad','Precio_Unitario','Total_Venta','Vendedor'] # Lista para ingresar los campos que quiero en el dataframe, permite agregar y campos en caso de que el archivo excel de ventas traiga nuevso campos en el futuro.
-        self.df_ventas = self.df_ventas.loc[:,campos_requeridos]
+        try:
+            self.df_ventas = self.df_ventas.loc[:,campos_requeridos]
+        except KeyError as e:
+            print("Error: No se a encontrado una o más columnas en el Dataframe.")
+            print(f"Detalles del error: {e}")
+
 
     def preprocesar_datos(self):
         pass
