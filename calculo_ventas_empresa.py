@@ -93,6 +93,11 @@ class generador_reporte:
     def __init__(self, procesados, ruta_archivo_reporte):
         pass
 
+    def generar_reporte_ventas_vendedores(self):
+        pass
+
+    def generar_reporte_ventas_mes(self):
+        pass
 
 if __name__ == "__main__":
     procesador_ventas = procesador_de_ventas('datos_ventas.xlsx')
