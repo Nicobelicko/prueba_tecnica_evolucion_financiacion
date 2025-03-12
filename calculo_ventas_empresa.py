@@ -10,6 +10,7 @@ class procesador_de_ventas:
         self.convertir_fecha_datetime()
         self.agregar_campo_mes()
         self.filtrar_ventas_por_annio(2023)
+        self.calculo_estadistico_ventas_vendedor()
 
     def cargar_dataframe(self,ruta_archivo_ventas):
         try:
@@ -61,7 +62,6 @@ class procesador_de_ventas:
     def filtrar_ventas_por_annio(self, annio):
         try:
             self.df_ventas = self.df_ventas[self.df_ventas['Fecha'].dt.year == annio]
-            print(self.df_ventas.info())
 
         except KeyError as ke:
             print(f"Error al encontrar el campo: {ke}") #Capturo error en caso de no encontrar el campo
@@ -73,7 +73,10 @@ class procesador_de_ventas:
             print(f"[Error inesperado] {e}")
 
     def calculo_estadistico_ventas_vendedor(self):
-        pass
+        try:
+            self.df_ventas_por_vendedor = self.df_ventas.groupby('Vendedor')['Total_Venta'].sum().reset_index()
+        except Exception as e:
+            print(f"Ocurrió un error no esperado: {e}")
 
     def calculo_estadistico_ventas_mes(self):
         pass
