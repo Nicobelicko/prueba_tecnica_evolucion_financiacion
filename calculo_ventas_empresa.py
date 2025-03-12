@@ -7,6 +7,7 @@ class procesador_de_ventas:
         self.df_ventas = self.cargar_dataframe(ruta_archivo_ventas)
         self.obtener_campos_requeridos()
         self.preprocesar_datos()
+        self.convertir_fecha_datetime()
 
     def cargar_dataframe(self,ruta_archivo_ventas):
         try:
@@ -38,9 +39,14 @@ class procesador_de_ventas:
         except Exception as e:
             print(f"Ocurrio un Error no esperado: {e}")
 
-            
+
     def convertir_fecha_datetime(self):
-        pass
+        try:
+            self.df_ventas['Fecha'] = pd.to_datetime(self.df_ventas['Fecha'],errors='coerce') #Convierte a datetime las fechas de la columna Fecha y en caso de no poder convertir algún valor lo deja como NaT que equivale a un NaN en fechas.
+        except KeyError:
+            print("Error, la columna 'Fecha' no se encontró en el dataframe.")
+        except Exception as e:
+            print(f"Ocurrió un error no esperado: {e}")
     
     def filtrar_ventas_por_annio(self):
         pass
