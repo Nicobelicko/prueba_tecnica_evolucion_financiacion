@@ -75,13 +75,13 @@ class procesador_de_ventas:
 
     def calculo_estadistico_ventas_vendedor(self):
         try:
-            self.df_ventas_por_vendedor = self.df_ventas.groupby('Vendedor')['Total_Venta'].sum().reset_index()
+            return self.df_ventas.groupby('Vendedor')['Total_Venta'].sum().reset_index()
         except Exception as e:
             print(f"Ocurrió un error no esperado: {e}")
 
     def calculo_estadistico_ventas_mes(self):
         try:
-            self.df_ventas_por_mes = self.df_ventas.groupby('Mes')['Total_Venta'].sum().reset_index()
+            return self.df_ventas.groupby('Mes')['Total_Venta'].sum().reset_index()
         except Exception as e:
             print(f"Ocurrió un error no esperado: {e}")
 
