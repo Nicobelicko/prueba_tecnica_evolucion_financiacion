@@ -86,5 +86,13 @@ class procesador_de_ventas:
             print(f"Ocurrió un error no esperado: {e}")
 
 
+
+
+class generador_reporte:
+
+    def __init__(self, procesados, ruta_archivo_reporte):
+        pass
+
+
 if __name__ == "__main__":
     procesador_ventas = procesador_de_ventas('datos_ventas.xlsx')
