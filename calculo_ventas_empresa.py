@@ -1,5 +1,8 @@
 import pandas as pd
 import datetime
+import matplotlib.pyplot as plt
+from openpyxl import load_workbook
+from openpyxl.drawing.image import Image
 
 class procesador_de_ventas:
 
@@ -12,6 +15,7 @@ class procesador_de_ventas:
         self.filtrar_ventas_por_annio(2023)
         self.calculo_estadistico_ventas_vendedor()
         self.calculo_estadistico_ventas_mes()
+        self.graficar_ventas_vendedores()
 
     def cargar_dataframe(self,ruta_archivo_ventas):
         try:
@@ -84,6 +88,17 @@ class procesador_de_ventas:
             return self.df_ventas.groupby('Mes')['Total_Venta'].sum().reset_index()
         except Exception as e:
             print(f"Ocurrió un error no esperado: {e}")
+
+    def graficar_ventas_vendedores(self):
+        df_ventas_vendedores = self.calculo_estadistico_ventas_vendedor()
+        plt.figure(figsize=(6,4))
+        plt.bar(df_ventas_vendedores['Vendedor'], df_ventas_vendedores['Total_Venta'], color='skyblue')
+        plt.title('Ventas por Vendedor')
+        plt.xlabel('Vendedor')
+        plt.ylabel('Total Ventas')
+        plt.tight_layout()
+        plt.savefig('grafico_vendedores.png')
+        plt.close()
 
 
 
