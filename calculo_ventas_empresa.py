@@ -16,6 +16,7 @@ class procesador_de_ventas:
         self.calculo_estadistico_ventas_vendedor()
         self.calculo_estadistico_ventas_mes()
         self.graficar_ventas_vendedores()
+        self.graficar_ventas_mes()
 
     def cargar_dataframe(self,ruta_archivo_ventas):
         try:
@@ -96,11 +97,23 @@ class procesador_de_ventas:
         plt.title('Ventas por Vendedor')
         plt.xlabel('Vendedor')
         plt.ylabel('Total Ventas')
+        plt.grid(True, linestyle='--', linewidth=0.5, axis='y')
         plt.tight_layout()
         plt.savefig('grafico_vendedores.png')
         plt.close()
 
-
+    def graficar_ventas_mes(self):
+        df_ventas_mes = self.calculo_estadistico_ventas_mes()
+        plt.figure(figsize=(6,4))
+        plt.plot(df_ventas_mes['Mes'], df_ventas_mes['Total_Venta'], marker = 'o',color='blue')
+        plt.xticks(ticks=df_ventas_mes['Mes'])
+        plt.title('Ventas por Mes')
+        plt.xlabel('Mes')
+        plt.ylabel('Total Ventas')
+        plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+        plt.tight_layout()
+        plt.savefig('grafico_meses.png')
+        plt.close()
 
 
 class generador_reporte:
