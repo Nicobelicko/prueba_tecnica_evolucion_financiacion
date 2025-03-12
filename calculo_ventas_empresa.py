@@ -8,6 +8,7 @@ class procesador_de_ventas:
         self.obtener_campos_requeridos()
         self.preprocesar_datos()
         self.convertir_fecha_datetime()
+        self.agregar_campo_mes()
 
     def cargar_dataframe(self,ruta_archivo_ventas):
         try:
@@ -45,6 +46,14 @@ class procesador_de_ventas:
             self.df_ventas['Fecha'] = pd.to_datetime(self.df_ventas['Fecha'],errors='coerce') #Convierte a datetime las fechas de la columna Fecha y en caso de no poder convertir algún valor lo deja como NaT que equivale a un NaN en fechas.
         except KeyError:
             print("Error, la columna 'Fecha' no se encontró en el dataframe.")
+        except Exception as e:
+            print(f"Ocurrió un error no esperado: {e}")
+
+    def agregar_campo_mes(self):
+        try:
+            self.df_ventas['Mes'] = self.df_ventas['Fecha'].dt.month
+        except KeyError:
+            print("Error, no se pudo encontrar el campo 'Mes' en el dataframe.")
         except Exception as e:
             print(f"Ocurrió un error no esperado: {e}")
     
