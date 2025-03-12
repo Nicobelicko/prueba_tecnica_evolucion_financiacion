@@ -25,11 +25,20 @@ class procesador_de_ventas:
 
     def preprocesar_datos(self):
 
-        total_venta_vacios = self.df_ventas['Total_Venta'].isna() #obtengo los registros de Total_Venta que están vacíos para usarlos como filtro
-        self.df_ventas.loc[total_venta_vacios,'Total_Venta'] = ( self.df_ventas[total_venta_vacios]['Cantidad'] * self.df_ventas.loc[total_venta_vacios]['Precio_Unitario'] ) #Con el filtro de registros vacíos tomo cada campo Total_Venta y lo calculo usando su respectivo registro de Cantidad y Precio Unitario con una multiplicación.
+        try:
+            total_venta_vacios = self.df_ventas['Total_Venta'].isna() #obtengo los registros de Total_Venta que están vacíos para usarlos como filtro
+            self.df_ventas.loc[total_venta_vacios,'Total_Venta'] = ( self.df_ventas[total_venta_vacios]['Cantidad'] * self.df_ventas.loc[total_venta_vacios]['Precio_Unitario'] ) #Con el filtro de registros vacíos tomo cada campo Total_Venta y lo calculo usando su respectivo registro de Cantidad y Precio Unitario con una multiplicación.
 
-        self.df_ventas['Producto'] = self.df_ventas['Producto'].astype('category') #Convertimos el campo Producto a categoría debido a que es más conveniente en campos de variables limitadas como este.
+            self.df_ventas['Producto'] = self.df_ventas['Producto'].astype('category') #Convertimos el campo Producto a categoría debido a que es más conveniente en campos de variables limitadas como este.
+        except KeyError as ke:
+            print(f"Error no se encuentra el campo en el dataframe: {ke}")
 
+        except TypeError as te:
+            print(f"Error de incompatibilidad en el tipo de dato: {te}")
+        except Exception as e:
+            print(f"Ocurrio un Error no esperado: {e}")
+
+            
     def convertir_fecha_datetime(self):
         pass
     
