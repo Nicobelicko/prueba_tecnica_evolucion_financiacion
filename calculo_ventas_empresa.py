@@ -94,14 +94,14 @@ class generador_reporte:
         self.procesados = procesados
         self.reporte_ventas_vendedores = pd.DataFrame()
         self.reporte_ventas_mes = pd.DataFrame()
-        self.generar_reporte_ventas_vendedores(ruta_archivo_reporte)
-        
+        self.generar_reporte_ventas_vendedores()
+        self.generar_reporte_ventas_mes()
 
-    def generar_reporte_ventas_vendedores(self,ruta_archivo_reporte):
+    def generar_reporte_ventas_vendedores(self):
         self.reporte_ventas_vendedores = self.procesados.calculo_estadistico_ventas_vendedor()
 
-    def generar_reporte_ventas_mes(self,ruta_archivo_reporte):
-        pass
+    def generar_reporte_ventas_mes(self):
+        self.reporte_ventas_mes = self.procesados.calculo_estadistico_ventas_mes()
 
 if __name__ == "__main__":
     procesador_ventas = procesador_de_ventas('datos_ventas.xlsx')
