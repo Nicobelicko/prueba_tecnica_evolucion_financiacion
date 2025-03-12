@@ -1,15 +1,18 @@
-import pandas
+import pandas as pd
 import datetime
 
 class procesador_de_ventas:
 
     def __init__(self, ruta_archivo_ventas):
-        pass
+        self.df_ventas = self.cargar_dataframe(ruta_archivo_ventas)
 
 
 
     def cargar_dataframe(self,ruta_archivo_ventas):
-        pass
+        try:
+            return pd.read_excel(ruta_archivo_ventas)
+        except FileNotFoundError:
+            raise FileNotFoundError("El archivo de ventas no fue encontrado en la dirección ingresada.")
 
     def obtener_campos_requeridos(self):
         pass
@@ -28,3 +31,7 @@ class procesador_de_ventas:
 
     def calculo_estadistico_ventas_mes(self):
         pass
+
+
+if __name__ == "__main__":
+    procesador_ventas = procesador_de_ventas('datos_ventas.xlsx')
