@@ -9,6 +9,7 @@ class procesador_de_ventas:
         self.preprocesar_datos()
         self.convertir_fecha_datetime()
         self.agregar_campo_mes()
+        self.filtrar_ventas_por_annio(2023)
 
     def cargar_dataframe(self,ruta_archivo_ventas):
         try:
@@ -57,8 +58,19 @@ class procesador_de_ventas:
         except Exception as e:
             print(f"Ocurrió un error no esperado: {e}")
     
-    def filtrar_ventas_por_annio(self):
-        pass
+    def filtrar_ventas_por_annio(self, annio):
+        try:
+            self.df_ventas = self.df_ventas[self.df_ventas['Fecha'].dt.year == annio]
+            print(self.df_ventas.info())
+
+        except KeyError as ke:
+            print(f"Error al encontrar el campo: {ke}") #Capturo error en caso de no encontrar el campo
+
+        except AttributeError as te:
+            print(f"Campo Fecha no esta en el formato indicado de fecha {te}")#Capturo el error en caso de que pandas no pueda acceder al atributo dt de datetime
+
+        except Exception as e:
+            print(f"[Error inesperado] {e}")
 
     def calculo_estadistico_ventas_vendedor(self):
         pass
