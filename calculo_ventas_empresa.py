@@ -125,6 +125,7 @@ class generador_reporte:
         self.generar_reporte_ventas_vendedores()
         self.generar_reporte_ventas_mes()
         self.exportar_archivo_resumen(ruta_archivo_reporte)
+        self.insertar_graficos_en_archivo_resumen(ruta_archivo_reporte)
 
     def generar_reporte_ventas_vendedores(self):
         self.reporte_ventas_vendedores = self.procesados.calculo_estadistico_ventas_vendedor()
@@ -136,6 +137,19 @@ class generador_reporte:
         with pd.ExcelWriter(ruta_archivo_reporte,engine='openpyxl') as writer:
             self.reporte_ventas_vendedores.to_excel(writer,sheet_name='Resumen_Ventas')
             self.reporte_ventas_mes.to_excel(writer,sheet_name='Ventas_Mensuales')
+    
+    def insertar_graficos_en_archivo_resumen(self,ruta_archivo_reporte):
+        wb = load_workbook(ruta_archivo_reporte)
+
+        hoja_resumen_ventas = wb['Resumen_Ventas']
+        img_grafico_vendedores = Image('grafico_vendedores.png')
+        hoja_resumen_ventas.add_image(img_grafico_vendedores,'G2')
+
+        hoja_resumen_meses = wb['Ventas_Mensuales']
+        img_grafico_meses = Image('grafico_meses.png')
+        hoja_resumen_meses.add_image(img_grafico_meses,'G2')
+
+        wb.save(ruta_archivo_reporte)
 
 if __name__ == "__main__":
     procesador_ventas = procesador_de_ventas('datos_ventas.xlsx')
